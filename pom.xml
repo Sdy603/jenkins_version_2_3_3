@@ -5,8 +5,8 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.80</version>
-    <relativePath>..</relativePath>
+    <version>4.33</version>
+    <relativePath />
   </parent>
 
   <groupId>io.jenkins.plugins</groupId>
@@ -34,8 +34,8 @@
     <changelist>-SNAPSHOT</changelist>
 
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-    <jenkins.version>2.451</jenkins.version>
-    <hpi.plugin.compatibleSinceVersion>2.451</hpi.plugin.compatibleSinceVersion>
+    <jenkins.version>2.332.2</jenkins.version>
+    <hpi.plugin.compatibleSinceVersion>2.332.2</hpi.plugin.compatibleSinceVersion>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
 
     <spotless.check.skip>false</spotless.check.skip>
@@ -47,8 +47,8 @@
       <dependency>
         <!-- Pick up common dependencies for the selected LTS line: https://github.com/jenkinsci/bom#usage -->
         <groupId>io.jenkins.tools.bom</groupId>
-        <artifactId>bom-2.414.x</artifactId>
-        <version>2950.va_633b_f42f759</version>
+        <artifactId>bom-2.332.x</artifactId>
+        <version>[2.332.0,)</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -59,10 +59,6 @@
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>credentials</artifactId>
       <!-- Use the latest version compatible with your Jenkins version -->
-    </dependency>
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>git</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>

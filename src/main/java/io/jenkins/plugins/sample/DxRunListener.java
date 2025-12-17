@@ -8,7 +8,6 @@ import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.model.User;
 import hudson.model.listeners.RunListener;
-import hudson.plugins.git.util.BuildData;
 import hudson.scm.ChangeLogSet;
 import hudson.tasks.MailAddressResolver;
 import javax.annotation.Nonnull;
@@ -36,28 +35,10 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
             return;
         }
 
-        BuildData buildData = run.getAction(BuildData.class);
         String repoUrl = "";
         String commitSha = "";
         String branchName = "";
         String targetBranch = "";
-
-        if (buildData != null) {
-            if (!buildData.getRemoteUrls().isEmpty()) {
-                repoUrl = buildData.getRemoteUrls().iterator().next();
-            }
-            if (buildData.getLastBuiltRevision() != null) {
-                commitSha = buildData.getLastBuiltRevision().getSha1String();
-                if (!buildData.getLastBuiltRevision().getBranches().isEmpty()) {
-                    branchName = buildData
-                            .getLastBuiltRevision()
-                            .getBranches()
-                            .iterator()
-                            .next()
-                            .getName();
-                }
-            }
-        }
 
         SCMRevisionAction scmRevisionAction = run.getAction(SCMRevisionAction.class);
         String prNumber = "";
@@ -70,6 +51,10 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
                 prNumber = changeRequestHead.getId();
             } else if (branchName == null || branchName.isEmpty()) {
                 branchName = head.getName();
+            }
+
+            if (commitSha == null || commitSha.isEmpty()) {
+                commitSha = scmRevisionAction.getRevision().toString();
             }
         }
 
@@ -130,10 +115,6 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         }
 
         String jobName = run.getParent().getFullName();
-        if (!config.shouldProcess(repoUrl, jobName, branchName)) {
-            listener.getLogger().println("DX: build filtered out.");
-            return;
-        }
 
         long start = run.getStartTimeInMillis() / 1000;
         long finish = (run.getStartTimeInMillis() + run.getDuration()) / 1000;

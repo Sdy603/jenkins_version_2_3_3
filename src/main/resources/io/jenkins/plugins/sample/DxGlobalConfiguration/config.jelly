@@ -4,18 +4,6 @@
     <f:entry title="DX API Base URL" field="dxBaseUrl" description="Base URL for the DX API, e.g. https://dx.example.com">
       <f:textbox/>
     </f:entry>
-    <f:entry title="Pipeline Source" field="pipelineSource" description="Value sent as pipeline_source to DX">
-      <f:textbox/>
-    </f:entry>
-    <f:entry title="Include Repository (regex)" field="includeRepoPattern" description="Match the full repository name 'owner/repo'. Example: ^my-org/.+$">
-      <f:textbox/>
-    </f:entry>
-    <f:entry title="Pipeline Name (regex)" field="includeJobPattern" description="Match Jenkins pipeline names. Example: ^build-and-test$">
-      <f:textbox/>
-    </f:entry>
-    <f:entry title="Include Branch (regex)" field="includeBranchPattern" description="Match source control branches. Example: ^main$">
-      <f:textbox/>
-    </f:entry>
   </f:section>
 </j:jelly>
 
