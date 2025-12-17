@@ -1,3 +1,0 @@
-# informational; use java -jar sezpoz.jar to see authoritative contents
-io.jenkins.plugins.sample.DxGlobalConfiguration
-io.jenkins.plugins.sample.DxRunListener
