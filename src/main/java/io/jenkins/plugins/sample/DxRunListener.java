@@ -1,6 +1,7 @@
 package io.jenkins.plugins.sample;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
@@ -35,7 +36,7 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
             return;
         }
 
-        String repoUrl = "";
+        String repoUrl = resolveRepositoryUrl(run, listener);
         String commitSha = "";
         String branchName = "";
         String targetBranch = "";
@@ -125,6 +126,12 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
 
         String repositoryName = extractRepositoryName(repoUrl);
 
+        if (isRepositoryDenied(repositoryName, config.getRepositoryDenylist())) {
+            listener.getLogger()
+                    .println("DX: repository '" + repositoryName + "' is denylisted. Skipping DX submission.");
+            return;
+        }
+
         String pipelineName = jobName;
         if (pipelineName == null || pipelineName.isEmpty()) {
             pipelineName = "jenkins-" + jobName;
@@ -195,5 +202,47 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         String cleaned = repoUrl.replaceAll("\\.git$", "");
         String[] parts = cleaned.split("[/:]");
         return parts[parts.length - 1];
+    }
+
+    static boolean isRepositoryDenied(String repositoryName, String denylistRaw) {
+        if (repositoryName == null || repositoryName.trim().isEmpty()) {
+            return false;
+        }
+        if (denylistRaw == null || denylistRaw.trim().isEmpty()) {
+            return false;
+        }
+
+        String normalizedRepository = repositoryName.trim().toLowerCase();
+        String[] entries = denylistRaw.split("[\\n,]");
+        for (String entry : entries) {
+            String denylisted = entry.trim().toLowerCase();
+            if (!denylisted.isEmpty() && normalizedRepository.equals(denylisted)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String resolveRepositoryUrl(Run<?, ?> run, TaskListener listener) {
+        String repoUrl = "";
+        try {
+            EnvVars env = run.getEnvironment(listener);
+            repoUrl = firstNonEmpty(env.get("GIT_URL"), env.get("GIT_URL_1"), env.get("GIT_URL_2"));
+        } catch (Exception e) {
+            listener.getLogger().println("DX: Unable to determine repository URL: " + e.getMessage());
+        }
+        return repoUrl != null ? repoUrl : "";
+    }
+
+    private static String firstNonEmpty(String... values) {
+        if (values == null) {
+            return "";
+        }
+        for (String value : values) {
+            if (value != null && !value.trim().isEmpty()) {
+                return value;
+            }
+        }
+        return "";
     }
 }

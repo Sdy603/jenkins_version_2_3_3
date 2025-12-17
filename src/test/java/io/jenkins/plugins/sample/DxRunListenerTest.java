@@ -16,4 +16,14 @@ public class DxRunListenerTest {
         assertEquals("failure", DxRunListener.mapResult(Result.UNSTABLE));
         assertEquals("unknown", DxRunListener.mapResult(null));
     }
+
+    @Test
+    public void testRepositoryDenylistMatching() {
+        assertTrue(DxRunListener.isRepositoryDenied("example-repo", "example-repo"));
+        assertTrue(DxRunListener.isRepositoryDenied("example-repo", "another, example-repo"));
+        assertTrue(DxRunListener.isRepositoryDenied("EXAMPLE-repo", "example-repo\nsecond"));
+        assertFalse(DxRunListener.isRepositoryDenied("example-repo", "other"));
+        assertFalse(DxRunListener.isRepositoryDenied("", "example-repo"));
+        assertFalse(DxRunListener.isRepositoryDenied("example-repo", ""));
+    }
 }
