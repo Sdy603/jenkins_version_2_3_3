@@ -1,0 +1,14 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /Users/matt/jenkins/jenkins-plugins/work/workspace/Say hello world yo yo yo
+Sending run data to DX:
+pipeline_name: Say hello world yo yo yo
+pipeline_source: Jenkins
+reference_id: Jenkins/910484b3ebd9a7017d8bf3b633b1a87c/Say hello world yo yo yo/14
+started_at: 1712085227
+finished_at: 1712085228ms
+status: success
+fp size: 0
+trying to print all pipeline names:
+item name: test pipeline - wow
+Finished: SUCCESS

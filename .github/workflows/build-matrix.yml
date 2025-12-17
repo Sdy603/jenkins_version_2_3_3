@@ -1,0 +1,162 @@
+name: Build Jenkins Plugin (Matrix)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'Runner type'
+        required: false
+        default: 'ubuntu-latest'
+        type: choice
+        options:
+          - ubuntu-latest
+
+jobs:
+  build:
+    runs-on: ${{ github.event.inputs.runner || 'ubuntu-latest' }}
+    
+    strategy:
+      matrix:
+        java-version: [11,17]
+        maven-version: ['3.9.9']
+      fail-fast: false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Verify Maven and Java versions
+      run: |
+        java -version
+        mvn -version
+
+    - name: Compile and package Jenkins plugin
+      run: mvn clean package -DskipTests=false
+
+    - name: Run tests
+      run: mvn test
+
+    - name: Upload HPI artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dx-data-sharer-plugin-java${{ matrix.java-version }}
+        path: target/dx-data-sharer.hpi
+        retention-days: 30
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-java${{ matrix.java-version }}
+        path: target/surefire-reports/
+        retention-days: 7
+
+    - name: Verify HPI file
+      run: |
+        echo "Generated HPI file details:"
+        ls -la target/dx-data-sharer.hpi
+        echo "File size: $(wc -c < target/dx-data-sharer.hpi) bytes"
+        echo "Java version: ${{ matrix.java-version }}"
+        echo "Runner: ${{ runner.os }}"
+
+    - name: Get version from POM
+      id: version
+      run: |
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Version: $VERSION"
+
+    - name: Create incremental tag (Main branch, Java 11 only)
+      if: github.ref == 'refs/heads/main' && matrix.java-version == '11'
+      id: create_tag
+      run: |
+        # Configure git
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Fetch all tags from remote
+        git fetch --tags
+        
+        # Get the latest semantic version tag (format: x.y.z), ignore non-semantic tags
+        LATEST_TAG=$(git tag -l | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1)
+        if [ -z "$LATEST_TAG" ]; then
+          NEW_TAG="1.0.0"
+        else
+          # Extract version parts
+          VERSION_PARTS=(${LATEST_TAG//./ })
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+          NEW_TAG="${MAJOR}.${MINOR}.${PATCH}"
+        fi
+        
+        echo "Previous tag: ${LATEST_TAG:-'none'}"
+        echo "New tag: $NEW_TAG"
+        
+        # Check if tag already exists
+        if git tag -l | grep -q "^${NEW_TAG}$"; then
+          echo "Tag $NEW_TAG already exists, skipping tag creation"
+          echo "new_tag=" >> $GITHUB_OUTPUT
+        else
+          # Create and push the tag
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Release on Tag (Java 11 only)
+      if: (startsWith(github.ref, 'refs/tags/') || steps.create_tag.outputs.new_tag) && matrix.java-version == '11'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.create_tag.outputs.new_tag || github.ref_name }}
+        files: |
+          target/dx-data-sharer.hpi
+          target/dx-data-sharer.jar
+        name: Release ${{ steps.create_tag.outputs.new_tag || github.ref_name }}
+        body: |
+          ## DX Data Sharer Jenkins Plugin - ${{ steps.create_tag.outputs.new_tag || github.ref_name }}
+          
+          This release contains the compiled Jenkins plugin for DX Data Sharing.
+          
+          ### Installation
+          1. Download the `dx-data-sharer.hpi` file
+          2. In Jenkins, go to "Manage Jenkins" → "Plugins" → "Advanced Settings"
+          3. Upload the HPI file under "Deploy Plugin"
+          4. Restart Jenkins
+          
+          ### Files
+          - `dx-data-sharer.hpi` - Jenkins plugin file for installation
+          - `dx-data-sharer.jar` - Plugin JAR file
+          
+          ### Build Info
+          - Java version: ${{ matrix.java-version }}
+          - Maven version: ${{ matrix.maven-version }}
+          - Built from commit: ${{ github.sha }}
+          - Runner: ${{ runner.os }}
+        draft: false
+        prerelease: ${{ contains(steps.version.outputs.version, 'SNAPSHOT') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dx-data-sharer-jar-java${{ matrix.java-version }}
+        path: target/dx-data-sharer.jar
+        retention-days: 30

@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Group-Id: io.jenkins.plugins
+Artifact-Id: dx-data-sharer
+Short-Name: dx-data-sharer
+Long-Name: TODO Plugin
+Url: https://github.com/jenkinsci/dx-data-sharer-plugin
+Plugin-Version: 1.0-SNAPSHOT (private-08cdc03a-matt)
+Hudson-Version: 2.414.3
+Jenkins-Version: 2.414.3
+Plugin-Dependencies: credentials:2.3.15,plain-credentials:1.7,structs:33
+ 7.v1b_04ea_4df7c8
+Plugin-Developers: 
+Plugin-License-Name: MIT License
+Plugin-License-Url: https://opensource.org/license/mit/
+Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/dx-data-share
+ r-plugin
+Plugin-ScmTag: HEAD
+Plugin-ScmUrl: https://github.com/jenkinsci/dx-data-sharer-plugin
+Plugin-GitHash: 08cdc03a022e0c69107e8a5fa2a3d29dfef6dc42
+Implementation-Build: 08cdc03a022e0c69107e8a5fa2a3d29dfef6dc42
+Libraries: /Users/matt/jenkins/jenkins-plugins/src/main/resources,/Users
+ /matt/jenkins/jenkins-plugins/target/classes
+Resource-Path: /Users/matt/jenkins/jenkins-plugins/src/main/webapp
+

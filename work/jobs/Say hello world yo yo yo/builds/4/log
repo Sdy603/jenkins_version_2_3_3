@@ -1,0 +1,17 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /Users/matt/jenkins/dx_data_sharer-plugin/work/workspace/Say hello world
+FATAL: null
+java.lang.AbstractMethodError
+	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:134)
+	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:87)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:818)
+	at hudson.model.Build$BuildExecution.build(Build.java:199)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:164)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:526)
+	at hudson.model.Run.execute(Run.java:1900)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
+	at hudson.model.ResourceController.execute(ResourceController.java:101)
+	at hudson.model.Executor.run(Executor.java:442)
+Finished: FAILURE
