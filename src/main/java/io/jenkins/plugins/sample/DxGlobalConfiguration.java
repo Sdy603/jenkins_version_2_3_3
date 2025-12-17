@@ -14,6 +14,7 @@ import org.kohsuke.stapler.StaplerRequest;
 public class DxGlobalConfiguration extends GlobalConfiguration {
 
     private String dxBaseUrl;
+    private String repositoryDenylist;
 
     public DxGlobalConfiguration() {
         load();
@@ -28,9 +29,20 @@ public class DxGlobalConfiguration extends GlobalConfiguration {
         return dxBaseUrl;
     }
 
+    @Nullable
+    public String getRepositoryDenylist() {
+        return repositoryDenylist;
+    }
+
     @DataBoundSetter
     public void setDxBaseUrl(@Nullable String dxBaseUrl) {
         this.dxBaseUrl = dxBaseUrl;
+        save();
+    }
+
+    @DataBoundSetter
+    public void setRepositoryDenylist(@Nullable String repositoryDenylist) {
+        this.repositoryDenylist = repositoryDenylist;
         save();
     }
 

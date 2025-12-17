@@ -4,6 +4,12 @@
     <f:entry title="DX API Base URL" field="dxBaseUrl" description="Base URL for the DX API, e.g. https://dx.example.com">
       <f:textbox/>
     </f:entry>
+    <f:entry
+      title="Repository denylist"
+      field="repositoryDenylist"
+      description="Comma or newline separated list of repository names to exclude from DX data sharing">
+      <f:textarea/>
+    </f:entry>
   </f:section>
 </j:jelly>
 
