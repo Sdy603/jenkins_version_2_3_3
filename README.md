@@ -3,6 +3,7 @@
 ## Introduction
 
 This plugin is intended for customers of DX (https://getdx.com/). It shares Jenkins build data with DX.
+It targets Jenkins `2.332.2` for compatibility with older controller installations.
 
 To run this plugin locally:
 - Install Jenkins: https://www.jenkins.io/doc/pipeline/tour/getting-started/
@@ -56,9 +57,6 @@ To generate a *.hpi file:
 - Navigate to **Manage Jenkins → System**.
 - In the **DX Data Sharing** section, configure the following:
   - **DX API Base URL** – Base URL for your DX instance, e.g. `https://dx.example.com`.
-  - **Include Repository (regex)** – Optional allowlist for repositories in `owner/repo` form. Example: `^my-org/.+$`.
-  - **Pipeline Name (regex)** – Optional allowlist for Jenkins pipeline names. Example: `^build-and-test$`.
-  - **Include Branch (regex)** – Optional allowlist for branch names. Example: `^main$`.
 
 ### Hostname Mapping (Automatic)
 
