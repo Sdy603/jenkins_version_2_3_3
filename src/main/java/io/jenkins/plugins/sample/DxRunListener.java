@@ -23,6 +23,8 @@ import org.json.JSONObject;
 @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
 public class DxRunListener extends RunListener<Run<?, ?>> {
 
+    private static final String PIPELINE_SOURCE = "jenkins";
+
     @Override
     public void onCompleted(Run<?, ?> run, @Nonnull TaskListener listener) {
         Result result = run.getResult();
@@ -135,22 +137,11 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         }
         String referenceId = jobName + " #" + run.getNumber();
         String sourceId = jobName;
-
-        // Get the pipeline source based on hostname mapping
-        String pipelineSource = HostnameMappingService.getPipelineSourceForCurrentHost();
-        listener.getLogger().println("DX: Using pipeline source: " + pipelineSource);
-
-        // Log additional debugging info
-        try {
-            String hostname = java.net.InetAddress.getLocalHost().getHostName();
-            listener.getLogger().println("DX: Detected hostname: " + hostname);
-        } catch (Exception e) {
-            listener.getLogger().println("DX: Could not determine hostname: " + e.getMessage());
-        }
+        String pipelineSource = PIPELINE_SOURCE;
 
         JSONObject payload = new JSONObject();
         payload.put("pipeline_name", pipelineName);
-        payload.put("pipeline_source", HostnameMappingService.getPipelineSourceForCurrentHost());
+        payload.put("pipeline_source", pipelineSource);
         payload.put("reference_id", referenceId);
         payload.put("source_id", sourceId);
         payload.put("started_at", start);
