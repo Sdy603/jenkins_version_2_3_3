@@ -40,12 +40,6 @@
 
     <spotless.check.skip>false</spotless.check.skip>
     <java.level>8</java.level>
-    <!-- Force valid Java 11 values (prevents 1.11) -->
-    <!-- <maven.compiler.release>11</maven.compiler.release>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <jenkins.compilerSource>11</jenkins.compilerSource>
-    <jenkins.compilerTarget>11</jenkins.compilerTarget> -->
   </properties>
 
   <dependencyManagement>
