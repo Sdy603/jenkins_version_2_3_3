@@ -3,6 +3,7 @@ package io.jenkins.plugins.sample;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import hudson.EnvVars;
@@ -76,7 +77,7 @@ public class DxRunListenerTest {
         Job<?, ?> job = mock(Job.class);
 
         when(run.getResult()).thenReturn(result);
-        when(run.getParent()).thenReturn(job);
+        doReturn(job).when(run).getParent();
         when(run.getNumber()).thenReturn(42);
         when(run.getStartTimeInMillis()).thenReturn(1000L);
         when(run.getDuration()).thenReturn(500L);

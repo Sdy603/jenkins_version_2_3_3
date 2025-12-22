@@ -62,6 +62,17 @@ To generate a *.hpi file:
 
 The plugin sends `pipeline_source` as the constant value `jenkins` for every payload.
 
+## Build Troubleshooting
+
+Maven dependency downloads should use the public Jenkins repository (`https://repo.jenkins-ci.org/public/`). HTTP 403 errors often come from local infrastructure rather than the Jenkins service itself:
+
+- `~/.m2/settings.xml` mirrors (Artifactory or Nexus) that rewrite `repo.jenkins-ci.org` can block or rewrite requests. Disable the mirror for this host or add an allowlist entry.
+- Corporate proxies may return 403 if credentials are missing. Configure the proxy credentials in your environment (`https_proxy`/`HTTP_PROXY`) or Maven settings.
+- To validate access, fetch the exact POM URL reported in the build log, for example:
+  - `curl -I https://repo.jenkins-ci.org/public/io/jenkins/tools/bom/bom-2.332.x/1750.v0071fa_4c4a_e3/bom-2.332.x-1750.v0071fa_4c4a_e3.pom`
+
+If the curl request fails, fix the proxy or mirror configuration before re-running the build.
+
 ## Issues
 
 Report issues and enhancements in the [Jenkins issue tracker](https://issues.jenkins.io/).
