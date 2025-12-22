@@ -3,7 +3,8 @@ package io.jenkins.plugins.sample;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import hudson.EnvVars;
@@ -17,10 +18,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /** Basic tests for DxRunListener. */
 public class DxRunListenerTest {
+
+    private DxGlobalConfiguration config;
+    private DxDataSender sender;
+    private TaskListener taskListener;
+
+    @Before
+    public void setUp() {
+        config = mockConfiguredConfig();
+        sender = mock(DxDataSender.class);
+        taskListener = createTaskListener();
+    }
 
     @Test
     public void testResultMapping() {
@@ -44,17 +58,23 @@ public class DxRunListenerTest {
 
     @Test
     public void testOnCompletedSendsEventsForSuccessFailureAndAborted() throws Exception {
-        RecordingDxDataSender sender = new RecordingDxDataSender();
-        DxGlobalConfiguration config = mockConfiguredConfig();
         DxRunListener listener = new TestableDxRunListener(config, sender);
 
-        listener.onCompleted(mockRun(Result.SUCCESS), createTaskListener());
-        listener.onCompleted(mockRun(Result.FAILURE), createTaskListener());
-        listener.onCompleted(mockRun(Result.ABORTED), createTaskListener());
+        Run<?, ?> successRun = mockRun(Result.SUCCESS);
+        Run<?, ?> failureRun = mockRun(Result.FAILURE);
+        Run<?, ?> abortedRun = mockRun(Result.ABORTED);
 
-        assertEquals(3, sender.getSendCount());
-        assertEquals(Arrays.asList("success", "failure", "cancelled"), sender.getStatuses());
-        assertEquals(Arrays.asList("jenkins", "jenkins", "jenkins"), sender.getPipelineSources());
+        listener.onCompleted(successRun, taskListener);
+        listener.onCompleted(failureRun, taskListener);
+        listener.onCompleted(abortedRun, taskListener);
+
+        ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Object> runCaptor = ArgumentCaptor.forClass(Object.class);
+
+        verify(sender, times(3)).send(payloadCaptor.capture(), runCaptor.capture());
+        assertEquals(Arrays.asList(successRun, failureRun, abortedRun), runCaptor.getAllValues());
+        assertEquals(Arrays.asList("success", "failure", "cancelled"), extractStatuses(payloadCaptor.getAllValues()));
+        assertEquals(Arrays.asList("jenkins", "jenkins", "jenkins"), extractPipelineSources(payloadCaptor.getAllValues()));
     }
 
     private TaskListener createTaskListener() {
@@ -77,7 +97,7 @@ public class DxRunListenerTest {
         Job<?, ?> job = mock(Job.class);
 
         when(run.getResult()).thenReturn(result);
-        doReturn(job).when(run).getParent();
+        when(run.getParent()).thenReturn(job);
         when(run.getNumber()).thenReturn(42);
         when(run.getStartTimeInMillis()).thenReturn(1000L);
         when(run.getDuration()).thenReturn(500L);
@@ -87,6 +107,22 @@ public class DxRunListenerTest {
         when(job.getFullName()).thenReturn("example/job");
 
         return run;
+    }
+
+    private static List<String> extractStatuses(List<String> payloads) {
+        List<String> statuses = new ArrayList<>();
+        for (String payload : payloads) {
+            statuses.add(new JSONObject(payload).optString("status"));
+        }
+        return statuses;
+    }
+
+    private static List<String> extractPipelineSources(List<String> payloads) {
+        List<String> pipelineSources = new ArrayList<>();
+        for (String payload : payloads) {
+            pipelineSources.add(new JSONObject(payload).optString("pipeline_source"));
+        }
+        return pipelineSources;
     }
 
     private static class TestableDxRunListener extends DxRunListener {
@@ -106,36 +142,6 @@ public class DxRunListenerTest {
         @Override
         DxDataSender createDxDataSender(DxGlobalConfiguration config, TaskListener listener) {
             return sender;
-        }
-    }
-
-    private static class RecordingDxDataSender extends DxDataSender {
-        private final List<String> statuses = new ArrayList<>();
-        private final List<String> pipelineSources = new ArrayList<>();
-        private int sendCount = 0;
-
-        RecordingDxDataSender() {
-            super(null, null);
-        }
-
-        @Override
-        public void send(String payload, Object build) {
-            sendCount++;
-            JSONObject jsonPayload = new JSONObject(payload);
-            statuses.add(jsonPayload.optString("status"));
-            pipelineSources.add(jsonPayload.optString("pipeline_source"));
-        }
-
-        int getSendCount() {
-            return sendCount;
-        }
-
-        List<String> getStatuses() {
-            return statuses;
-        }
-
-        List<String> getPipelineSources() {
-            return pipelineSources;
         }
     }
 }
