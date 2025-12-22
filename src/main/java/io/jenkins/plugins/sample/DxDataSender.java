@@ -27,7 +27,7 @@ public class DxDataSender {
 
     public void send(String payload, Object build) {
         String dxBaseUrl = config.getDxBaseUrl();
-        if (dxBaseUrl == null || dxBaseUrl.isBlank()) {
+        if (dxBaseUrl == null || dxBaseUrl.trim().isEmpty()) {
             listener.getLogger().println("DX: API base path not configured. Skipping.");
             return;
         }
