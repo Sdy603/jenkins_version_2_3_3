@@ -53,6 +53,7 @@ public class DxRunListenerTest {
 
         assertEquals(3, sender.getSendCount());
         assertEquals(Arrays.asList("success", "failure", "cancelled"), sender.getStatuses());
+        assertEquals(Arrays.asList("jenkins", "jenkins", "jenkins"), sender.getPipelineSources());
     }
 
     private TaskListener createTaskListener() {
@@ -109,6 +110,7 @@ public class DxRunListenerTest {
 
     private static class RecordingDxDataSender extends DxDataSender {
         private final List<String> statuses = new ArrayList<>();
+        private final List<String> pipelineSources = new ArrayList<>();
         private int sendCount = 0;
 
         RecordingDxDataSender() {
@@ -120,6 +122,7 @@ public class DxRunListenerTest {
             sendCount++;
             JSONObject jsonPayload = new JSONObject(payload);
             statuses.add(jsonPayload.optString("status"));
+            pipelineSources.add(jsonPayload.optString("pipeline_source"));
         }
 
         int getSendCount() {
@@ -128,6 +131,10 @@ public class DxRunListenerTest {
 
         List<String> getStatuses() {
             return statuses;
+        }
+
+        List<String> getPipelineSources() {
+            return pipelineSources;
         }
     }
 }

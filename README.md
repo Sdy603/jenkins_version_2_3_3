@@ -58,16 +58,9 @@ To generate a *.hpi file:
 - In the **DX Data Sharing** section, configure the following:
   - **DX API Base URL** – Base URL for your DX instance, e.g. `https://dx.example.com`.
 
-### Hostname Mapping (Automatic)
+### Pipeline Source
 
-The plugin automatically maps the Jenkins server's hostname to a pipeline source using the `jenkins-server.csv` file:
-
-- **Automatic Detection**: The plugin detects the Jenkins server's hostname automatically
-- **CSV Mapping**: Maps hostnames to pipeline source descriptions (e.g., "APEX Central Engineering")
-- **Default Fallback**: Uses "jenkins-unmapped" if no mapping is found
-- **No Configuration Required**: Works out of the box with the included CSV file
-
-For detailed information about hostname mapping, see [HOSTNAME_MAPPING.md](HOSTNAME_MAPPING.md).
+The plugin sends `pipeline_source` as the constant value `jenkins` for every payload.
 
 ## Issues
 
@@ -82,4 +75,3 @@ Refer to our [contribution guidelines](https://github.com/jenkinsci/.github/blob
 ## LICENSE
 
 Licensed under MIT, see [LICENSE](LICENSE.md)
-
