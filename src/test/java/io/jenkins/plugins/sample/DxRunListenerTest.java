@@ -1,7 +1,7 @@
 package io.jenkins.plugins.sample;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,6 +17,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import jenkins.scm.api.SCMRevisionAction;
+import jenkins.scm.api.metadata.ContributorMetadataAction;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,9 +103,10 @@ public class DxRunListenerTest {
         when(run.getNumber()).thenReturn(42);
         when(run.getStartTimeInMillis()).thenReturn(1000L);
         when(run.getDuration()).thenReturn(500L);
-        when(run.getEnvironment(any(TaskListener.class))).thenReturn(new EnvVars());
-        when(run.getAction(any(Class.class))).thenReturn(null);
-        when(run.getCause(any(Class.class))).thenReturn(null);
+        doReturn(new EnvVars()).when(run).getEnvironment(taskListener);
+        doReturn(null).when(run).getAction(SCMRevisionAction.class);
+        doReturn(null).when(run).getAction(ContributorMetadataAction.class);
+        doReturn(null).when(run).getCause(hudson.model.Cause.UserIdCause.class);
         when(job.getFullName()).thenReturn("example/job");
 
         return run;
