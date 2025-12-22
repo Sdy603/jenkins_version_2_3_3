@@ -26,11 +26,8 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
     @Override
     public void onCompleted(Run<?, ?> run, @Nonnull TaskListener listener) {
         Result result = run.getResult();
-        if (result == null || !result.equals(Result.SUCCESS)) {
-            return;
-        }
 
-        DxGlobalConfiguration config = DxGlobalConfiguration.get();
+        DxGlobalConfiguration config = getConfiguration();
         if (config == null || !config.isConfigured()) {
             listener.getLogger().println("DX: plugin not configured. Skipping.");
             return;
@@ -121,7 +118,7 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         long finish = (run.getStartTimeInMillis() + run.getDuration()) / 1000;
         String status = mapResult(result);
         if (status == null || status.isEmpty()) {
-            status = "unknown";
+            status = "failure";
         }
 
         String repositoryName = extractRepositoryName(repoUrl);
@@ -174,13 +171,13 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         System.out.println("DX Payload:");
         System.out.println(payload.toString(2));
 
-        DxDataSender dxSender = new DxDataSender(config, listener);
+        DxDataSender dxSender = createDxDataSender(config, listener);
         dxSender.send(payload.toString(), run);
     }
 
     static String mapResult(Result result) {
         if (result == null) {
-            return "unknown";
+            return "failure";
         }
         if (result.equals(Result.SUCCESS)) {
             return "success";
@@ -190,9 +187,19 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
             return "cancelled";
         } else if (result.equals(Result.UNSTABLE)) {
             return "failure";
+        } else if (result.equals(Result.NOT_BUILT)) {
+            return "cancelled";
         } else {
-            return "unknown";
+            return "failure";
         }
+    }
+
+    DxGlobalConfiguration getConfiguration() {
+        return DxGlobalConfiguration.get();
+    }
+
+    DxDataSender createDxDataSender(DxGlobalConfiguration config, TaskListener listener) {
+        return new DxDataSender(config, listener);
     }
 
     private static String extractRepositoryName(String repoUrl) {
