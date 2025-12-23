@@ -99,7 +99,7 @@ public class DxRunListenerTest {
         Job<?, ?> job = mock(Job.class);
 
         when(run.getResult()).thenReturn(result);
-        when(run.getParent()).thenReturn(job);
+        doReturn(job).when(run).getParent();
         when(run.getNumber()).thenReturn(42);
         when(run.getStartTimeInMillis()).thenReturn(1000L);
         when(run.getDuration()).thenReturn(500L);
