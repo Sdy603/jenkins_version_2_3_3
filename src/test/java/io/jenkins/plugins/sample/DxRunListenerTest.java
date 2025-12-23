@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import hudson.EnvVars;
 import hudson.model.Job;
@@ -86,15 +85,14 @@ public class DxRunListenerTest {
 
     private DxGlobalConfiguration mockConfiguredConfig() {
         DxGlobalConfiguration config = mock(DxGlobalConfiguration.class);
-        when(config.isConfigured()).thenReturn(true);
-        when(config.getRepositoryDenylist()).thenReturn("");
+        doReturn(true).when(config).isConfigured();
+        doReturn("").when(config).getRepositoryDenylist();
         return config;
     }
 
     private Run<?, ?> mockRun(Result result) throws Exception {
-        @SuppressWarnings("unchecked")
         Run<?, ?> run = mock(Run.class);
-        Job job = mock(Job.class);
+        Job<?, ?> job = mock(Job.class);
 
         doReturn(result).when(run).getResult();
         doReturn(job).when(run).getParent();
