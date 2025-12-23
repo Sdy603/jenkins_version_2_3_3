@@ -1,6 +1,7 @@
 package io.jenkins.plugins.sample;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -94,14 +95,14 @@ public class DxRunListenerTest {
     private Run<?, ?> mockRun(Result result) throws Exception {
         @SuppressWarnings("unchecked")
         Run<?, ?> run = mock(Run.class);
-        Job<?, ?> job = mock(Job.class);
+        Job job = mock(Job.class);
 
         doReturn(result).when(run).getResult();
         doReturn(job).when(run).getParent();
         doReturn(42).when(run).getNumber();
         doReturn(1000L).when(run).getStartTimeInMillis();
         doReturn(500L).when(run).getDuration();
-        doReturn(new EnvVars()).when(run).getEnvironment(taskListener);
+        doReturn(new EnvVars()).when(run).getEnvironment(any(TaskListener.class));
         when(job.getFullName()).thenReturn("example/job");
 
         return run;
