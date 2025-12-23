@@ -1,0 +1,45 @@
+DX Payload:
+{
+  "pipeline_source": "jenkins",
+  "commit_sha": "",
+  "reference_id": "example/job #42",
+  "finished_at": 1,
+  "head_branch": "",
+  "started_at": 1,
+  "source_id": "example/job",
+  "repository": "",
+  "pipeline_name": "example/job",
+  "source_url": "",
+  "email": "",
+  "status": "success"
+}
+DX Payload:
+{
+  "pipeline_source": "jenkins",
+  "commit_sha": "",
+  "reference_id": "example/job #42",
+  "finished_at": 1,
+  "head_branch": "",
+  "started_at": 1,
+  "source_id": "example/job",
+  "repository": "",
+  "pipeline_name": "example/job",
+  "source_url": "",
+  "email": "",
+  "status": "failure"
+}
+DX Payload:
+{
+  "pipeline_source": "jenkins",
+  "commit_sha": "",
+  "reference_id": "example/job #42",
+  "finished_at": 1,
+  "head_branch": "",
+  "started_at": 1,
+  "source_id": "example/job",
+  "repository": "",
+  "pipeline_name": "example/job",
+  "source_url": "",
+  "email": "",
+  "status": "cancelled"
+}

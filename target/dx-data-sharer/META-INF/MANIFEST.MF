@@ -11,7 +11,7 @@ Minimum-Java-Version: 1.8
 Plugin-License-Name: MIT License
 Specification-Title: The Jenkins Plugins Parent POM Project
 Plugin-ScmUrl: https://github.com/jenkinsci/dx-data-sharer-plugin
-Plugin-Version: 1.0-SNAPSHOT (private-4c20db22-samuelyoung)
+Plugin-Version: 1.0-SNAPSHOT (private-81686f4e-samuelyoung)
 Jenkins-Version: 2.332.2
 Url: https://github.com/jenkinsci/dx-data-sharer-plugin
 Short-Name: dx-data-sharer

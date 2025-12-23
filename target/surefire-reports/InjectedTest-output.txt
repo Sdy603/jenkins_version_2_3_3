@@ -1,81 +1,81 @@
 Running tests for io.jenkins.plugins:dx-data-sharer:1.0-SNAPSHOT
-Dec 22, 2025 3:08:13 PM org.eclipse.jetty.util.log.Log initialized
-INFO: Logging initialized @413ms to org.eclipse.jetty.util.log.Slf4jLog
-Dec 22, 2025 3:08:14 PM org.jvnet.hudson.test.WarExploder explode
+Dec 23, 2025 2:30:17 PM org.eclipse.jetty.util.log.Log initialized
+INFO: Logging initialized @428ms to org.eclipse.jetty.util.log.Slf4jLog
+Dec 23, 2025 2:30:18 PM org.jvnet.hudson.test.WarExploder explode
 INFO: Exploding /Users/samuelyoung/.m2/repository/org/jenkins-ci/main/jenkins-war/2.332.2/jenkins-war-2.332.2.war into /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.handler.ContextHandler setContextPath
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.handler.ContextHandler setContextPath
 WARNING: Empty contextPath
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.Server doStart
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.Server doStart
 INFO: jetty-9.4.44.v20210927; built: 2021-09-27T23:02:44.612Z; git: 8da83308eeca865e495e53ef315a249d63ba9332; jvm 1.8.0_472-b08
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.webapp.StandardDescriptorProcessor visitServlet
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.webapp.StandardDescriptorProcessor visitServlet
 INFO: NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
 INFO: DefaultSessionIdManager workerName=node0
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
 INFO: No SessionScavenger set, using defaults
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.session.HouseKeeper startScavenging
-INFO: node0 Scavenging every 600000ms
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.handler.ContextHandler doStart
-INFO: Started o.e.j.w.WebAppContext@53d102a2{Jenkins v2.332.2,/,file:///Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test/,AVAILABLE}{/Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test}
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.AbstractConnector doStart
-INFO: Started ServerConnector@31dadd46{HTTP/1.1, (http/1.1)}{localhost:52925}
-Dec 22, 2025 3:08:15 PM org.eclipse.jetty.server.Server doStart
-INFO: Started @2525ms
-Dec 22, 2025 3:08:16 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Started initialization
-Dec 22, 2025 3:08:16 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/javax-activation-api.jpi
-Dec 22, 2025 3:08:16 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/javax-mail-api.jpi
-Dec 22, 2025 3:08:17 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/bouncycastle-api.jpi
-Dec 22, 2025 3:08:17 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/sshd.jpi
-Dec 22, 2025 3:08:17 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/command-launcher.jpi
-Dec 22, 2025 3:08:17 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/jdk-tool.jpi
-Dec 22, 2025 3:08:17 PM hudson.PluginManager considerDetachedPlugin
-INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins654031014126552680/plugins/trilead-api.jpi
-Dec 22, 2025 3:08:17 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Listed all plugins
-Dec 22, 2025 3:08:19 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Prepared all plugins
-Dec 22, 2025 3:08:19 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Started all plugins
-Dec 22, 2025 3:08:19 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Augmented all extensions
-Dec 22, 2025 3:08:21 PM jenkins.InitReactorRunner$1 onAttained
-INFO: System config loaded
-Dec 22, 2025 3:08:21 PM jenkins.InitReactorRunner$1 onAttained
-INFO: System config adapted
-Dec 22, 2025 3:08:21 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Loaded all jobs
-Dec 22, 2025 3:08:21 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Configuration for all jobs updated
-Dec 22, 2025 3:08:21 PM jenkins.InitReactorRunner$1 onAttained
-INFO: Completed initialization
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.Server doStart
-INFO: jetty-9.4.44.v20210927; built: 2021-09-27T23:02:44.612Z; git: 8da83308eeca865e495e53ef315a249d63ba9332; jvm 1.8.0_472-b08
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
-INFO: DefaultSessionIdManager workerName=node0
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
-INFO: No SessionScavenger set, using defaults
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.session.HouseKeeper startScavenging
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.session.HouseKeeper startScavenging
 INFO: node0 Scavenging every 660000ms
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.handler.ContextHandler doStart
-INFO: Started o.e.j.s.ServletContextHandler@1a69561c{/,null,AVAILABLE}
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.AbstractConnector doStart
-INFO: Started ServerConnector@363f6148{HTTP/1.1, (http/1.1)}{0.0.0.0:52935}
-Dec 22, 2025 3:08:21 PM org.eclipse.jetty.server.Server doStart
-INFO: Started @8826ms
-Dec 22, 2025 3:08:23 PM org.eclipse.jetty.server.AbstractConnector doStop
-INFO: Stopped ServerConnector@31dadd46{HTTP/1.1, (http/1.1)}{localhost:0}
-Dec 22, 2025 3:08:23 PM org.eclipse.jetty.server.session.HouseKeeper stopScavenging
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.handler.ContextHandler doStart
+INFO: Started o.e.j.w.WebAppContext@65045a87{Jenkins v2.332.2,/,file:///Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test/,AVAILABLE}{/Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test}
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.AbstractConnector doStart
+INFO: Started ServerConnector@7dda48d9{HTTP/1.1, (http/1.1)}{localhost:55237}
+Dec 23, 2025 2:30:19 PM org.eclipse.jetty.server.Server doStart
+INFO: Started @2441ms
+Dec 23, 2025 2:30:21 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Started initialization
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/javax-activation-api.jpi
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/javax-mail-api.jpi
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/bouncycastle-api.jpi
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/sshd.jpi
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/command-launcher.jpi
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/jdk-tool.jpi
+Dec 23, 2025 2:30:21 PM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/tmp/jenkins1734487258695174846/plugins/trilead-api.jpi
+Dec 23, 2025 2:30:21 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Listed all plugins
+Dec 23, 2025 2:30:23 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Prepared all plugins
+Dec 23, 2025 2:30:23 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Started all plugins
+Dec 23, 2025 2:30:23 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Augmented all extensions
+Dec 23, 2025 2:30:24 PM jenkins.InitReactorRunner$1 onAttained
+INFO: System config loaded
+Dec 23, 2025 2:30:24 PM jenkins.InitReactorRunner$1 onAttained
+INFO: System config adapted
+Dec 23, 2025 2:30:24 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Loaded all jobs
+Dec 23, 2025 2:30:24 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Configuration for all jobs updated
+Dec 23, 2025 2:30:25 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Completed initialization
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.Server doStart
+INFO: jetty-9.4.44.v20210927; built: 2021-09-27T23:02:44.612Z; git: 8da83308eeca865e495e53ef315a249d63ba9332; jvm 1.8.0_472-b08
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: DefaultSessionIdManager workerName=node0
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: No SessionScavenger set, using defaults
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.session.HouseKeeper startScavenging
+INFO: node0 Scavenging every 660000ms
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.handler.ContextHandler doStart
+INFO: Started o.e.j.s.ServletContextHandler@4da855dd{/,null,AVAILABLE}
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.AbstractConnector doStart
+INFO: Started ServerConnector@2187fff7{HTTP/1.1, (http/1.1)}{0.0.0.0:55240}
+Dec 23, 2025 2:30:25 PM org.eclipse.jetty.server.Server doStart
+INFO: Started @7523ms
+Dec 23, 2025 2:30:26 PM org.eclipse.jetty.server.AbstractConnector doStop
+INFO: Stopped ServerConnector@7dda48d9{HTTP/1.1, (http/1.1)}{localhost:0}
+Dec 23, 2025 2:30:26 PM org.eclipse.jetty.server.session.HouseKeeper stopScavenging
 INFO: node0 Stopped scavenging
-Dec 22, 2025 3:08:23 PM org.eclipse.jetty.server.handler.ContextHandler doStop
-INFO: Stopped o.e.j.w.WebAppContext@53d102a2{Jenkins v2.332.2,/,file:///Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test/,STOPPED}{/Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test}
-Dec 22, 2025 3:08:23 PM hudson.lifecycle.Lifecycle onStatusUpdate
+Dec 23, 2025 2:30:26 PM org.eclipse.jetty.server.handler.ContextHandler doStop
+INFO: Stopped o.e.j.w.WebAppContext@65045a87{Jenkins v2.332.2,/,file:///Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test/,STOPPED}{/Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenkins_2_3_3/target/jenkins-for-test}
+Dec 23, 2025 2:30:26 PM hudson.lifecycle.Lifecycle onStatusUpdate
 INFO: Stopping Jenkins
-Dec 22, 2025 3:08:23 PM hudson.lifecycle.Lifecycle onStatusUpdate
+Dec 23, 2025 2:30:26 PM hudson.lifecycle.Lifecycle onStatusUpdate
 INFO: Jenkins stopped

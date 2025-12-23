@@ -17,7 +17,7 @@ Libraries: /Users/samuelyoung/Documents/Pipelines/Jenkins/plugin/Jenki
  nkins/plugin/Jenkins_2_3_3/target/classes,/Users/samuelyoung/.m2/repo
  sitory/org/json/json/20210307/json-20210307.jar
 Plugin-ScmUrl: https://github.com/jenkinsci/dx-data-sharer-plugin
-Plugin-Version: 1.0-SNAPSHOT (private-4c20db22-samuelyoung)
+Plugin-Version: 1.0-SNAPSHOT (private-81686f4e-samuelyoung)
 Jenkins-Version: 2.332.2
 Url: https://github.com/jenkinsci/dx-data-sharer-plugin
 Short-Name: dx-data-sharer
