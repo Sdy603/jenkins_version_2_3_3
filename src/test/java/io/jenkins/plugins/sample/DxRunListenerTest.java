@@ -7,7 +7,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import hudson.EnvVars;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.model.Run;
@@ -17,8 +16,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import jenkins.scm.api.SCMRevisionAction;
-import jenkins.scm.api.metadata.ContributorMetadataAction;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,10 +100,6 @@ public class DxRunListenerTest {
         when(run.getNumber()).thenReturn(42);
         when(run.getStartTimeInMillis()).thenReturn(1000L);
         when(run.getDuration()).thenReturn(500L);
-        doReturn(new EnvVars()).when(run).getEnvironment(taskListener);
-        doReturn(null).when(run).getAction(SCMRevisionAction.class);
-        doReturn(null).when(run).getAction(ContributorMetadataAction.class);
-        doReturn(null).when(run).getCause(hudson.model.Cause.UserIdCause.class);
         when(job.getFullName()).thenReturn("example/job");
 
         return run;
