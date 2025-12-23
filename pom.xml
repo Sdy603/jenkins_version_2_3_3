@@ -123,6 +123,7 @@
   <repositories>
     <repository>
       <id>repo.jenkins-ci.org</id>
+      <name>Jenkins public repository</name>
       <url>https://repo.jenkins-ci.org/public/</url>
       <releases>
         <enabled>true</enabled>
@@ -135,6 +136,7 @@
   <pluginRepositories>
     <pluginRepository>
       <id>repo.jenkins-ci.org</id>
+      <name>Jenkins public repository</name>
       <url>https://repo.jenkins-ci.org/public/</url>
       <releases>
         <enabled>true</enabled>
