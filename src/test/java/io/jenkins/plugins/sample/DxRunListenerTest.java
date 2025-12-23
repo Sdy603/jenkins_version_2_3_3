@@ -1,7 +1,6 @@
 package io.jenkins.plugins.sample;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -60,9 +59,9 @@ public class DxRunListenerTest {
     public void testOnCompletedSendsEventsForSuccessFailureAndAborted() throws Exception {
         DxRunListener listener = new TestableDxRunListener(config, sender);
 
-        Run<?, ?> successRun = mockRun(Result.SUCCESS);
-        Run<?, ?> failureRun = mockRun(Result.FAILURE);
-        Run<?, ?> abortedRun = mockRun(Result.ABORTED);
+        Run<?, ?> successRun = mockRun(Result.SUCCESS, taskListener);
+        Run<?, ?> failureRun = mockRun(Result.FAILURE, taskListener);
+        Run<?, ?> abortedRun = mockRun(Result.ABORTED, taskListener);
 
         listener.onCompleted(successRun, taskListener);
         listener.onCompleted(failureRun, taskListener);
@@ -90,7 +89,7 @@ public class DxRunListenerTest {
         return config;
     }
 
-    private Run<?, ?> mockRun(Result result) throws Exception {
+    private Run<?, ?> mockRun(Result result, TaskListener listener) throws Exception {
         Run<?, ?> run = mock(Run.class);
         Job<?, ?> job = mock(Job.class);
 
@@ -99,7 +98,7 @@ public class DxRunListenerTest {
         doReturn(42).when(run).getNumber();
         doReturn(1000L).when(run).getStartTimeInMillis();
         doReturn(500L).when(run).getDuration();
-        doReturn(new EnvVars()).when(run).getEnvironment(any(TaskListener.class));
+        doReturn(new EnvVars()).when(run).getEnvironment(listener);
         doReturn("example/job").when(job).getFullName();
 
         return run;
