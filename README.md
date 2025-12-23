@@ -70,6 +70,7 @@ Maven dependency downloads should use the public Jenkins repository (`https://re
 - Corporate proxies may return 403 if credentials are missing. Configure the proxy credentials in your environment (`https_proxy`/`HTTP_PROXY`) or Maven settings.
 - To validate access, fetch the exact POM URL reported in the build log, for example:
   - `curl -I https://repo.jenkins-ci.org/public/io/jenkins/tools/bom/bom-2.332.x/1750.v0071fa_4c4a_e3/bom-2.332.x-1750.v0071fa_4c4a_e3.pom`
+- To bypass a bad mirror temporarily, run with a clean settings file that excludes `repo.jenkins-ci.org` from the mirror-of pattern (for example, a `settings.xml` containing `<mirrorOf>*,!repo.jenkins-ci.org</mirrorOf>`), or point Maven at an empty settings file (`mvn -s /tmp/empty-settings.xml ...`) with a fresh local repo (`-Dmaven.repo.local=/tmp/m2`) to avoid the corporate mirror override.
 
 If the curl request fails, fix the proxy or mirror configuration before re-running the build.
 

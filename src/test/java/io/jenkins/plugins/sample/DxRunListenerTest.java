@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import hudson.EnvVars;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.model.Run;
@@ -95,11 +96,12 @@ public class DxRunListenerTest {
         Run<?, ?> run = mock(Run.class);
         Job<?, ?> job = mock(Job.class);
 
-        when(run.getResult()).thenReturn(result);
+        doReturn(result).when(run).getResult();
         doReturn(job).when(run).getParent();
-        when(run.getNumber()).thenReturn(42);
-        when(run.getStartTimeInMillis()).thenReturn(1000L);
-        when(run.getDuration()).thenReturn(500L);
+        doReturn(42).when(run).getNumber();
+        doReturn(1000L).when(run).getStartTimeInMillis();
+        doReturn(500L).when(run).getDuration();
+        doReturn(new EnvVars()).when(run).getEnvironment(taskListener);
         when(job.getFullName()).thenReturn("example/job");
 
         return run;
