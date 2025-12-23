@@ -80,14 +80,13 @@ public class DxRunListenerTest {
 
     private TaskListener createTaskListener() {
         TaskListener listener = mock(TaskListener.class);
-        when(listener.getLogger()).thenReturn(new PrintStream(new ByteArrayOutputStream()));
+        doReturn(new PrintStream(new ByteArrayOutputStream())).when(listener).getLogger();
         return listener;
     }
 
     private DxGlobalConfiguration mockConfiguredConfig() {
         DxGlobalConfiguration config = mock(DxGlobalConfiguration.class);
         when(config.isConfigured()).thenReturn(true);
-        when(config.getDxBaseUrl()).thenReturn("https://dx.example.test");
         when(config.getRepositoryDenylist()).thenReturn("");
         return config;
     }
