@@ -127,6 +127,7 @@
       <url>https://repo.jenkins-ci.org/public/</url>
       <releases>
         <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
       </releases>
       <snapshots>
         <enabled>false</enabled>
@@ -140,6 +141,7 @@
       <url>https://repo.jenkins-ci.org/public/</url>
       <releases>
         <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
       </releases>
       <snapshots>
         <enabled>false</enabled>
