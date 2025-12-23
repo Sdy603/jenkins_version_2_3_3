@@ -103,7 +103,7 @@ public class DxRunListenerTest {
         doReturn(1000L).when(run).getStartTimeInMillis();
         doReturn(500L).when(run).getDuration();
         doReturn(new EnvVars()).when(run).getEnvironment(any(TaskListener.class));
-        when(job.getFullName()).thenReturn("example/job");
+        doReturn("example/job").when(job).getFullName();
 
         return run;
     }
