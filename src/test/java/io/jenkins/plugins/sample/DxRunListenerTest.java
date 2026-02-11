@@ -56,6 +56,31 @@ public class DxRunListenerTest {
     }
 
     @Test
+    public void testExtractWorkspaceRepositoryStripsBranchAndUsesLastTwoSegments() {
+        assertEquals("workspace/repository", DxRunListener.extractWorkspaceRepository("workspace/repository/main", "main"));
+        assertEquals(
+                "workspace/repository",
+                DxRunListener.extractWorkspaceRepository("org/workspace/repository/feature/JIRA-123", "feature/JIRA-123"));
+        assertEquals("workspace/repository", DxRunListener.extractWorkspaceRepository("workspace/repository", ""));
+    }
+
+
+    @Test
+    public void testOnCompletedUsesWorkspaceRepositoryEvenWhenGitUrlExists() throws Exception {
+        DxRunListener listener = new TestableDxRunListener(config, sender);
+
+        EnvVars envVars = new EnvVars();
+        envVars.put("GIT_URL", "https://bitbucket.org/workspace/other-repo.git");
+        Run<?, ?> run = mockRun(Result.SUCCESS, taskListener, envVars);
+
+        listener.onCompleted(run, taskListener);
+
+        ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
+        verify(sender, times(1)).send(payloadCaptor.capture(), org.mockito.ArgumentMatchers.eq(run));
+        assertEquals("example/job", new JSONObject(payloadCaptor.getValue()).optString("repository"));
+    }
+
+    @Test
     public void testOnCompletedSendsEventsForSuccessFailureAndAborted() throws Exception {
         DxRunListener listener = new TestableDxRunListener(config, sender);
 
@@ -74,6 +99,9 @@ public class DxRunListenerTest {
         assertEquals(Arrays.asList(successRun, failureRun, abortedRun), runCaptor.getAllValues());
         assertEquals(Arrays.asList("success", "failure", "cancelled"), extractStatuses(payloadCaptor.getAllValues()));
         assertEquals(Arrays.asList("jenkins", "jenkins", "jenkins"), extractPipelineSources(payloadCaptor.getAllValues()));
+        assertEquals(
+                Arrays.asList("example/job", "example/job", "example/job"),
+                extractRepositories(payloadCaptor.getAllValues()));
     }
 
     private TaskListener createTaskListener() {
@@ -90,6 +118,10 @@ public class DxRunListenerTest {
     }
 
     private Run<?, ?> mockRun(Result result, TaskListener listener) throws Exception {
+        return mockRun(result, listener, new EnvVars());
+    }
+
+    private Run<?, ?> mockRun(Result result, TaskListener listener, EnvVars envVars) throws Exception {
         Run<?, ?> run = mock(Run.class);
         Job<?, ?> job = mock(Job.class);
 
@@ -98,7 +130,7 @@ public class DxRunListenerTest {
         doReturn(42).when(run).getNumber();
         doReturn(1000L).when(run).getStartTimeInMillis();
         doReturn(500L).when(run).getDuration();
-        doReturn(new EnvVars()).when(run).getEnvironment(listener);
+        doReturn(envVars).when(run).getEnvironment(listener);
         doReturn("example/job").when(job).getFullName();
 
         return run;
@@ -118,6 +150,14 @@ public class DxRunListenerTest {
             pipelineSources.add(new JSONObject(payload).optString("pipeline_source"));
         }
         return pipelineSources;
+    }
+
+    private static List<String> extractRepositories(List<String> payloads) {
+        List<String> repositories = new ArrayList<>();
+        for (String payload : payloads) {
+            repositories.add(new JSONObject(payload).optString("repository"));
+        }
+        return repositories;
     }
 
     private static class TestableDxRunListener extends DxRunListener {
