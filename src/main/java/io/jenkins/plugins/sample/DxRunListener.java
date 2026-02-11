@@ -123,7 +123,7 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
             status = "failure";
         }
 
-        String repositoryName = extractRepositoryName(repoUrl);
+        String repositoryName = extractWorkspaceRepository(jobName, branchName);
 
         if (isRepositoryDenied(repositoryName, config.getRepositoryDenylist())) {
             listener.getLogger()
@@ -192,14 +192,33 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
     DxDataSender createDxDataSender(DxGlobalConfiguration config, TaskListener listener) {
         return new DxDataSender(config, listener);
     }
-
-    private static String extractRepositoryName(String repoUrl) {
-        if (repoUrl == null || repoUrl.isEmpty()) {
+    static String extractWorkspaceRepository(String jobName, String branchName) {
+        if (jobName == null || jobName.trim().isEmpty()) {
             return "";
         }
-        String cleaned = repoUrl.replaceAll("\\.git$", "");
-        String[] parts = cleaned.split("[/:]");
-        return parts[parts.length - 1];
+
+        String normalizedJobName = trimSlashes(jobName.trim());
+        if (normalizedJobName.isEmpty()) {
+            return "";
+        }
+
+        String normalizedBranchName = trimSlashes(branchName);
+        if (!normalizedBranchName.isEmpty() && normalizedJobName.endsWith("/" + normalizedBranchName)) {
+            normalizedJobName = normalizedJobName.substring(0, normalizedJobName.length() - normalizedBranchName.length() - 1);
+        }
+
+        String[] segments = normalizedJobName.split("/");
+        if (segments.length >= 2) {
+            return segments[segments.length - 2] + "/" + segments[segments.length - 1];
+        }
+        return segments[0];
+    }
+
+    private static String trimSlashes(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.replaceAll("^/+", "").replaceAll("/+$", "");
     }
 
     static boolean isRepositoryDenied(String repositoryName, String denylistRaw) {
