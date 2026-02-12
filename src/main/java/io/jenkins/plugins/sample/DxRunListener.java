@@ -153,7 +153,7 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         if (targetBranch != null && !targetBranch.isEmpty()) {
             payload.put("base_branch", targetBranch);
         }
-        payload.put("commit_sha", commitSha != null ? commitSha : "");
+        payload.put("commit_sha", commitSha);
         if (prNumber != null && !prNumber.isEmpty()) {
             payload.put("pr_number", prNumber);
         }
@@ -248,7 +248,7 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
         } catch (Exception e) {
             listener.getLogger().println("DX: Unable to determine repository URL: " + e.getMessage());
         }
-        return repoUrl != null ? repoUrl : "";
+        return repoUrl;
     }
 
     private static String firstNonEmpty(String... values) {
