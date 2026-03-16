@@ -62,6 +62,29 @@ To generate a *.hpi file:
 
 The plugin sends `pipeline_source` as the constant value `jenkins` for every payload.
 
+### Example Pipeline Payload
+
+When a run completes, the plugin logs a payload similar to the following. The `repository` value is the repo argument derived from the Jenkins job path (for example, `acme/payments-service`):
+
+```json
+{
+  "pipeline_name": "acme/payments-service/PR-42",
+  "pipeline_source": "jenkins",
+  "reference_id": "acme/payments-service/PR-42 #18",
+  "source_id": "acme/payments-service/PR-42",
+  "started_at": 1713897000,
+  "finished_at": 1713897065,
+  "status": "success",
+  "repository": "acme/payments-service",
+  "source_url": "https://github.com/acme/payments-service.git",
+  "head_branch": "feature/improve-cache",
+  "base_branch": "main",
+  "commit_sha": "f53a1eb3f1b52f26048f7911d0a0b5be62f9f119",
+  "pr_number": "42",
+  "email": "dev@example.com"
+}
+```
+
 ## Build Troubleshooting
 
 Maven dependency downloads should use the public Jenkins repository (`https://repo.jenkins-ci.org/public/`). HTTP 403 errors often come from local infrastructure rather than the Jenkins service itself:
