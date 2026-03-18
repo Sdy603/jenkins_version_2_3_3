@@ -61,7 +61,28 @@ public class DxRunListenerTest {
         assertEquals(
                 "workspace/repository",
                 DxRunListener.extractWorkspaceRepository("org/workspace/repository/feature/JIRA-123", "feature/JIRA-123"));
+        assertEquals(
+                "ciex/dx-test-repo",
+                DxRunListener.extractWorkspaceRepository(
+                        "ciex/dx-test-repo/feature%2Fdx-jenkins-plugin-test", "feature/dx-jenkins-plugin-test"));
         assertEquals("workspace/repository", DxRunListener.extractWorkspaceRepository("workspace/repository", ""));
+    }
+
+    @Test
+    public void testOnCompletedDecodesEscapedJobNamesInPayloadFields() throws Exception {
+        DxRunListener listener = new TestableDxRunListener(config, sender);
+
+        Run<?, ?> run = mockRun(Result.SUCCESS, taskListener, new EnvVars(), "ciex/dx-test-repo/feature%2Fdx-jenkins-plugin-test");
+
+        listener.onCompleted(run, taskListener);
+
+        ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
+        verify(sender, times(1)).send(payloadCaptor.capture(), org.mockito.ArgumentMatchers.eq(run));
+
+        JSONObject payload = new JSONObject(payloadCaptor.getValue());
+        assertEquals("ciex/dx-test-repo", payload.optString("repository"));
+        assertEquals("ciex/dx-test-repo/feature/dx-jenkins-plugin-test", payload.optString("pipeline_name"));
+        assertEquals("ciex/dx-test-repo/feature/dx-jenkins-plugin-test", payload.optString("source_id"));
     }
 
 
@@ -122,6 +143,10 @@ public class DxRunListenerTest {
     }
 
     private Run<?, ?> mockRun(Result result, TaskListener listener, EnvVars envVars) throws Exception {
+        return mockRun(result, listener, envVars, "example/job");
+    }
+
+    private Run<?, ?> mockRun(Result result, TaskListener listener, EnvVars envVars, String fullJobName) throws Exception {
         Run<?, ?> run = mock(Run.class);
         Job<?, ?> job = mock(Job.class);
 
@@ -131,7 +156,7 @@ public class DxRunListenerTest {
         doReturn(1000L).when(run).getStartTimeInMillis();
         doReturn(500L).when(run).getDuration();
         doReturn(envVars).when(run).getEnvironment(listener);
-        doReturn("example/job").when(job).getFullName();
+        doReturn(fullJobName).when(job).getFullName();
 
         return run;
     }
