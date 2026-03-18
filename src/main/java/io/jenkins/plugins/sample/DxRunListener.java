@@ -11,6 +11,8 @@ import hudson.model.User;
 import hudson.model.listeners.RunListener;
 import hudson.scm.ChangeLogSet;
 import hudson.tasks.MailAddressResolver;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import javax.annotation.Nonnull;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.SCMRevisionAction;
@@ -63,12 +65,14 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
                     .replaceFirst("^refs/heads/", "")
                     .replaceFirst("^refs/remotes/origin/", "")
                     .replaceFirst("^origin/", "");
+            branchName = decodeEscapedValue(branchName);
         }
         if (targetBranch != null && !targetBranch.isEmpty()) {
             targetBranch = targetBranch
                     .replaceFirst("^refs/heads/", "")
                     .replaceFirst("^refs/remotes/origin/", "")
                     .replaceFirst("^origin/", "");
+            targetBranch = decodeEscapedValue(targetBranch);
         }
 
         String userEmail = "";
@@ -114,7 +118,7 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
             }
         }
 
-        String jobName = run.getParent().getFullName();
+        String jobName = decodeEscapedValue(run.getParent().getFullName());
 
         long start = run.getStartTimeInMillis() / 1000;
         long finish = (run.getStartTimeInMillis() + run.getDuration()) / 1000;
@@ -261,5 +265,16 @@ public class DxRunListener extends RunListener<Run<?, ?>> {
             }
         }
         return "";
+    }
+
+    private static String decodeEscapedValue(String value) {
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+        try {
+            return URLDecoder.decode(value.replace("+", "%2B"), StandardCharsets.UTF_8.name());
+        } catch (IllegalArgumentException e) {
+            return value;
+        }
     }
 }
